@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Анкета вкусов</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAF9F9;--lime:#E9FF79;--pink:#FFC6C6;--berry:#B71A3F;--berry-d:#8A102B;--ink:#221C1E;--mute:#6E6164;--soft:#FFF3F4;
+--lime-t:color-mix(in srgb,var(--lime) 40%,white);--pink-t:color-mix(in srgb,var(--pink) 35%,white);--line:color-mix(in srgb,var(--ink) 10%,white)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,sans-serif;line-height:1.4;padding-bottom:90px}
+button,input,textarea{font:inherit;color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+header.hero{padding:34px 0 18px}
+.hero h1{font-size:clamp(28px,6vw,44px);margin:0 0 8px;letter-spacing:-.02em;font-weight:800}
+.hero p{margin:0;color:var(--mute);max-width:620px;font-size:16px}
+.who{display:flex;gap:10px;align-items:center;margin-top:18px;flex-wrap:wrap}
+.who label{font-weight:600}
+.who input{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:10px 14px;min-width:200px;font-size:16px}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:14px;font-weight:600;border:1.5px solid transparent}
+.pill svg{width:15px;height:15px}
+.p1{background:var(--lime);}
+.p2{background:var(--pink);}
+.p3{background:#fff;border-color:var(--line);color:var(--mute)}
+nav.chips{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+nav.chips .scroll{display:flex;gap:8px;overflow-x:auto;padding:10px 16px;max-width:1080px;margin:0 auto;scrollbar-width:none}
+nav.chips .scroll::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
+.chip small{color:var(--mute);font-weight:500;margin-left:4px}
+.chip.done{background:var(--lime-t);border-color:var(--lime)}
+.chip.res{background:var(--berry);color:#fff;border-color:var(--berry)}
+section.sec{padding-top:34px;scroll-margin-top:56px}
+section.sec h2{font-size:26px;margin:0;font-weight:800;letter-spacing:-.01em}
+.sub{color:var(--mute);margin:4px 0 14px}
+.secbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.linkbtn{background:none;border:none;color:var(--berry);font-weight:600;cursor:pointer;padding:6px 0;font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:12px}
+.card{background:#fff;border:2px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .15s,box-shadow .15s}
+.card .ph{aspect-ratio:1/1;background:var(--soft);position:relative;overflow:hidden}
+.card img{width:100%;height:100%;object-fit:cover;display:block;transition:filter .2s,opacity .2s}
+.card .nm{padding:8px 10px 6px;font-weight:600;font-size:14px;line-height:1.25;min-height:46px}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:0 6px 8px}
+.opts button{border:1.5px solid var(--line);background:#fff;border-radius:10px;padding:7px 0;font-size:12px;font-weight:700;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mute)}
+.opts svg{width:16px;height:16px}
+.card[data-s="1"]{border-color:#c9e04f;box-shadow:0 0 0 4px color-mix(in srgb,var(--lime) 45%,transparent)}
+.card[data-s="2"]{border-color:var(--pink);box-shadow:0 0 0 4px color-mix(in srgb,var(--pink) 40%,transparent)}
+.card[data-s="3"] img{filter:grayscale(1);opacity:.45}
+.card[data-s="3"] .nm{color:var(--mute);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--mute) 50%,white)}
+.card[data-s="1"] .opts [data-v="1"]{background:var(--lime);border-color:var(--lime);color:var(--ink)}
+.card[data-s="2"] .opts [data-v="2"]{background:var(--pink);border-color:var(--pink);color:var(--berry-d)}
+.card[data-s="3"] .opts [data-v="3"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.notes{margin-top:16px;background:var(--soft);border-radius:16px;padding:14px}
+.notes label{font-weight:700;display:block;margin-bottom:6px;font-size:14px}
+.notes textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;min-height:60px;resize:vertical;font-size:15px;background:#fff}
+.bar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom));z-index:30}
+.bar .in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.prog{flex:1;min-width:0}
+.prog .t{font-size:13px;color:var(--mute);margin-bottom:4px;display:flex;justify-content:space-between;gap:8px}
+.prog .b{height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.prog .b i{display:block;height:100%;background:var(--berry);width:0;transition:width .3s}
+.btn{border:none;border-radius:14px;padding:12px 18px;font-weight:700;cursor:pointer;font-size:15px;background:var(--berry);color:#fff;white-space:nowrap}
+.btn.sec2{background:#fff;color:var(--berry);border:1.5px solid var(--berry)}
+.btn.lime{background:var(--lime);color:var(--ink)}
+#result{position:fixed;inset:0;background:var(--bg);z-index:50;overflow:auto;display:none}
+#result.on{display:block}
+#result .top{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0 6px;align-items:center}
+.rgroup{margin:18px 0}
+.rgroup h3{margin:0 0 8px;font-size:20px;font-weight:800}
+.rsec{margin:0 0 14px}
+.rsec h4{margin:0 0 6px;font-size:15px;color:var(--mute);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:3px 12px 3px 3px;font-size:14px;font-weight:600}
+.tag img{width:26px;height:26px;border-radius:50%;object-fit:cover}
+.tag.s1{background:var(--lime-t);border-color:var(--lime)}
+.tag.s2{background:var(--pink-t);border-color:var(--pink)}
+.tag.s3{color:var(--mute)}
+.note{background:var(--soft);border-radius:12px;padding:8px 12px;margin-top:6px;font-size:14px}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;z-index:99;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.on{opacity:1}
+.sync{font-size:12px;color:var(--mute)}
+.sync.ok{color:#5a7a00}
+.viewer{background:var(--lime);padding:10px 16px;font-weight:600;text-align:center}
+@media(max-width:520px){.grid{grid-template-columns:repeat(2,1fr)}.btn{padding:11px 14px;font-size:14px}}
+</style>
+</head>
+<body>
+<div id="viewbanner" class="viewer" style="display:none"></div>
+<div class="wrap">
+<header class="hero">
+<h1>Анкета вкусов</h1>
+<p>Нажимай на картинки и отмечай, что ты ешь. Никакого «правильного» ответа нет — нам важно понять, что тебе реально нравится, и из этого составить меню. Ответы сохраняются сами.</p>
+<div class="who"><label for="nm">Твоё имя</label><input id="nm" placeholder="Например, Муж" autocomplete="off"></div>
+<div class="legend">
+<span class="pill p1"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.5 2.7 5 6.1 5c2.1 0 3.4 1.2 3.9 2.2.5-1 1.800-2.200 3.900-2.200 3.400 0 5.200 3.500 3.700 6.800C19.500 16.400 12 21 12 21z" transform="translate(.0 0)"/></svg>Люблю</span>
+<span class="pill p2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>Могу есть</span>
+<span class="pill p3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>Не ем / не хочу</span>
+</div>
+</header>
+</div>
+<nav class="chips"><div class="scroll" id="chips"></div></nav>
+<main class="wrap" id="main"></main>
+<div class="wrap"><p class="sub" style="padding:30px 0 10px;font-size:12px">Фотографии: Wikipedia / Wikimedia Commons (свободные лицензии).</p></div>
+
+<div class="bar"><div class="in">
+<div class="prog"><div class="t"><span id="ptxt">Отмечено 0 из 0</span><span class="sync" id="sync"></span></div><div class="b"><i id="pbar"></i></div></div>
+<button class="btn" id="showres">Мои ответы</button>
+</div></div>
+
+<div id="result"><div class="wrap">
+<div class="top"><button class="btn sec2" id="closeres">Назад к анкете</button><button class="btn" id="copytext">Скопировать ответы</button><button class="btn lime" id="copylink">Скопировать ссылку на ответы</button></div>
+<h1 id="rtitle" style="margin:8px 0 0;font-size:30px;font-weight:800">Мои ответы</h1>
+<p class="sub" id="rsub"></p>
+<div id="rbody"></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = [{"id": "veg", "title": "Овощи", "hint": "Что из овощей ты ешь? Отметь каждый.", "items": [{"id": "cucumber", "n": "Огурец"}, {"id": "tomato", "n": "Помидор"}, {"id": "bellpepper", "n": "Болгарский перец"}, {"id": "carrot", "n": "Морковь"}, {"id": "broccoli", "n": "Брокколи"}, {"id": "cauliflower", "n": "Цветная капуста"}, {"id": "zucchini", "n": "Кабачок / цукини"}, {"id": "eggplant", "n": "Баклажан"}, {"id": "pumpkin", "n": "Тыква"}, {"id": "beet", "n": "Свёкла"}, {"id": "cabbage", "n": "Белокочанная капуста"}, {"id": "redcabbage", "n": "Краснокочанная капуста"}, {"id": "brussels", "n": "Брюссельская капуста"}, {"id": "kohlrabi", "n": "Кольраби"}, {"id": "spinach", "n": "Шпинат"}, {"id": "kale", "n": "Кейл (кудрявая капуста)"}, {"id": "arugula", "n": "Руккола"}, {"id": "iceberg", "n": "Салат айсберг"}, {"id": "romaine", "n": "Салат романо"}, {"id": "celery", "n": "Сельдерей стебель"}, {"id": "greenbeans", "n": "Стручковая фасоль"}, {"id": "peas", "n": "Зелёный горошек"}, {"id": "corn", "n": "Кукуруза"}, {"id": "asparagus", "n": "Спаржа"}, {"id": "radish", "n": "Редис"}, {"id": "onion", "n": "Лук репчатый"}, {"id": "redonion", "n": "Красный лук"}, {"id": "garlic", "n": "Чеснок"}, {"id": "leek", "n": "Лук-порей"}, {"id": "fennel", "n": "Фенхель"}, {"id": "turnip", "n": "Репа"}, {"id": "celeriac", "n": "Корень сельдерея"}, {"id": "parsnip", "n": "Пастернак"}, {"id": "artichoke", "n": "Артишок"}, {"id": "bokchoy", "n": "Пак-чой"}, {"id": "edamame", "n": "Эдамаме"}, {"id": "daikon", "n": "Дайкон"}, {"id": "okra", "n": "Окра"}, {"id": "rutabaga", "n": "Брюква"}, {"id": "jerusalem", "n": "Топинамбур"}]}, {"id": "herbs", "title": "Зелень", "hint": "Какую зелень ты готов добавлять в еду?", "items": [{"id": "parsley", "n": "Петрушка"}, {"id": "dill", "n": "Укроп"}, {"id": "cilantro", "n": "Кинза"}, {"id": "basil", "n": "Базилик"}, {"id": "greenonion", "n": "Зелёный лук"}, {"id": "mint", "n": "Мята"}, {"id": "rosemary", "n": "Розмарин"}, {"id": "thyme", "n": "Тимьян"}, {"id": "sorrel", "n": "Щавель"}, {"id": "watercress", "n": "Кресс-салат"}]}, {"id": "mush", "title": "Грибы", "hint": "Какие грибы тебе подходят?", "items": [{"id": "champignon", "n": "Шампиньоны"}, {"id": "oyster", "n": "Вёшенки"}, {"id": "chanterelle", "n": "Лисички"}, {"id": "porcini", "n": "Белые грибы"}, {"id": "shiitake", "n": "Шиитаке"}, {"id": "enoki", "n": "Эноки"}, {"id": "portobello", "n": "Портобелло"}, {"id": "honey", "n": "Опята"}]}, {"id": "fruit", "title": "Фрукты и ягоды", "hint": "Витаминные фрукты и ягоды — что нравится?", "items": [{"id": "grapefruit", "n": "Грейпфрут"}, {"id": "orange", "n": "Апельсин"}, {"id": "mandarin", "n": "Мандарин"}, {"id": "lemon", "n": "Лимон"}, {"id": "kiwi", "n": "Киви"}, {"id": "apple", "n": "Яблоко"}, {"id": "pear", "n": "Груша"}, {"id": "banana", "n": "Банан"}, {"id": "pomegranate", "n": "Гранат"}, {"id": "persimmon", "n": "Хурма"}, {"id": "blueberry", "n": "Черника"}, {"id": "strawberry", "n": "Клубника"}, {"id": "raspberry", "n": "Малина"}, {"id": "blackcurrant", "n": "Чёрная смородина"}, {"id": "seabuckthorn", "n": "Облепиха"}, {"id": "cranberry", "n": "Клюква"}, {"id": "mango", "n": "Манго"}, {"id": "pineapple", "n": "Ананас"}, {"id": "grapes", "n": "Виноград"}, {"id": "watermelon", "n": "Арбуз"}, {"id": "melon", "n": "Дыня"}, {"id": "pomelo", "n": "Помело"}, {"id": "fig", "n": "Инжир"}, {"id": "peach", "n": "Персик"}, {"id": "plum", "n": "Слива"}, {"id": "cherry", "n": "Вишня / черешня"}, {"id": "apricot", "n": "Абрикос"}, {"id": "papaya", "n": "Папайя"}]}, {"id": "dried", "title": "Сухофрукты", "hint": "Сухофрукты — что любишь?", "items": [{"id": "driedapricot", "n": "Курага"}, {"id": "prunes", "n": "Чернослив"}, {"id": "dates", "n": "Финики"}, {"id": "raisins", "n": "Изюм"}, {"id": "driedfig", "n": "Сушёный инжир"}, {"id": "goji", "n": "Ягоды годжи"}]}, {"id": "nuts", "title": "Орехи и семена", "hint": "Полезные жиры: орехи и семечки.", "items": [{"id": "almond", "n": "Миндаль"}, {"id": "walnut", "n": "Грецкий орех"}, {"id": "cashew", "n": "Кешью"}, {"id": "pistachio", "n": "Фисташки"}, {"id": "hazelnut", "n": "Фундук"}, {"id": "peanut", "n": "Арахис"}, {"id": "pumpkinseed", "n": "Тыквенные семечки"}, {"id": "sunflowerseed", "n": "Семечки подсолнуха"}, {"id": "chia", "n": "Чиа"}, {"id": "flax", "n": "Лён (семена)"}, {"id": "sesame", "n": "Кунжут"}, {"id": "pinenut", "n": "Кедровые орехи"}, {"id": "peanutbutter", "n": "Ореховая паста"}]}, {"id": "fish", "title": "Рыба и морепродукты", "hint": "Что из рыбы и морепродуктов ты ешь?", "items": [{"id": "salmon", "n": "Лосось / сёмга"}, {"id": "trout", "n": "Форель"}, {"id": "mackerel", "n": "Скумбрия"}, {"id": "herring", "n": "Сельдь"}, {"id": "sardine", "n": "Сардины"}, {"id": "tuna", "n": "Тунец"}, {"id": "cod", "n": "Треска"}, {"id": "pollock", "n": "Минтай"}, {"id": "hake", "n": "Хек"}, {"id": "seabass", "n": "Сибас"}, {"id": "dorado", "n": "Дорада"}, {"id": "pangasius", "n": "Пангасиус"}, {"id": "tilapia", "n": "Тилапия"}, {"id": "shrimp", "n": "Креветки"}, {"id": "squid", "n": "Кальмар"}, {"id": "mussels", "n": "Мидии"}, {"id": "caviar", "n": "Красная икра"}, {"id": "crab", "n": "Краб / крабовое мясо"}, {"id": "seaweed", "n": "Нори / водоросли"}]}, {"id": "meat", "title": "Мясо и птица", "hint": "Какое мясо для тебя ОК? (говядину мы обычно не едим — но отметь честно.)", "items": [{"id": "chickenbreast", "n": "Куриное филе (грудка, бёдра)"}, {"id": "turkey", "n": "Индейка"}, {"id": "pork", "n": "Свинина"}, {"id": "lamb", "n": "Баранина"}, {"id": "veal", "n": "Телятина"}, {"id": "beef", "n": "Говядина"}, {"id": "duck", "n": "Утка"}, {"id": "rabbit", "n": "Кролик"}, {"id": "liver", "n": "Печень"}, {"id": "ham", "n": "Ветчина"}, {"id": "bacon", "n": "Бекон"}, {"id": "pate", "n": "Паштет"}]}, {"id": "meatdish", "title": "Блюда из мяса", "hint": "Какие блюда тебе хотелось бы видеть на столе?", "items": [{"id": "cutlet", "n": "Котлеты"}, {"id": "pozharsky", "n": "Котлета по-киевски"}, {"id": "meatballs", "n": "Тефтели / фрикадельки"}, {"id": "porkchop", "n": "Отбивная"}, {"id": "schnitzel", "n": "Шницель"}, {"id": "stroganoff", "n": "Бефстроганов"}, {"id": "goulash", "n": "Гуляш"}, {"id": "casserole", "n": "Мясная запеканка"}, {"id": "shashlik", "n": "Шашлык"}, {"id": "tabaka", "n": "Цыплёнок табака"}, {"id": "roastchicken", "n": "Курица запечённая"}, {"id": "cabbagerolls", "n": "Голубцы"}, {"id": "pelmeni", "n": "Пельмени"}, {"id": "shawarma", "n": "Шаурма"}, {"id": "kebab", "n": "Люля-кебаб"}, {"id": "stew", "n": "Рагу / тушёное мясо"}, {"id": "steak", "n": "Стейк"}, {"id": "chickenkebab", "n": "Куриные шашлычки на гриле"}, {"id": "pilaf", "n": "Плов"}, {"id": "zrazy", "n": "Зразы"}]}, {"id": "eggs", "title": "Яйца и молочное", "hint": "Яйца, творог, сыры, кисломолочное.", "items": [{"id": "friedegg", "n": "Яичница"}, {"id": "omelette", "n": "Омлет"}, {"id": "scrambled", "n": "Скрэмбл"}, {"id": "boiledegg", "n": "Варёное яйцо"}, {"id": "shakshuka", "n": "Шакшука"}, {"id": "cottagecheese", "n": "Творог"}, {"id": "creamcheese", "n": "Творожный сыр"}, {"id": "hardcheese", "n": "Твёрдый сыр"}, {"id": "feta", "n": "Фета"}, {"id": "mozzarella", "n": "Моцарелла"}, {"id": "halloumi", "n": "Халуми"}, {"id": "ricotta", "n": "Рикотта"}, {"id": "yogurt", "n": "Греческий йогурт"}, {"id": "kefir", "n": "Кефир"}, {"id": "milk", "n": "Молоко"}, {"id": "syrniki", "n": "Сырники"}, {"id": "vareniki", "n": "Вареники"}, {"id": "cheesecasserole", "n": "Творожная запеканка"}]}, {"id": "bread", "title": "Хлеб и тосты", "hint": "Какой хлеб подойдёт для утренних тостов и бутербродов?", "items": [{"id": "roti", "n": "Лепёшка роти"}, {"id": "pita", "n": "Пита"}, {"id": "lavash", "n": "Лаваш"}, {"id": "tortilla", "n": "Тортилья"}, {"id": "rye", "n": "Ржаной хлеб"}, {"id": "wholegrain", "n": "Цельнозерновой хлеб"}, {"id": "sourdough", "n": "Хлеб на закваске"}, {"id": "ciabatta", "n": "Чиабатта"}, {"id": "baguette", "n": "Багет"}, {"id": "crispbread", "n": "Хлебцы"}, {"id": "ricecake", "n": "Рисовые хлебцы"}, {"id": "bagel", "n": "Бейгл"}, {"id": "toast", "n": "Тост"}, {"id": "pancakes", "n": "Блинчики"}, {"id": "flatbread", "n": "Фокачча"}, {"id": "matzo", "n": "Мацца / тонкие лепёшки"}]}, {"id": "breakfast", "title": "Завтраки", "hint": "Что бы тебе хотелось на завтрак?", "items": [{"id": "oatmeal", "n": "Овсяная каша"}, {"id": "granola", "n": "Гранола"}, {"id": "muesli", "n": "Мюсли"}, {"id": "chiapudding", "n": "Чиа-пудинг"}, {"id": "avocadotoast", "n": "Тост с авокадо"}, {"id": "sandwich", "n": "Бутерброд с красной рыбой"}, {"id": "cheesetoast", "n": "Тост с сыром"}, {"id": "yogurtbowl", "n": "Йогурт с ягодами и орехами"}, {"id": "smoothie", "n": "Смузи"}, {"id": "hamegg", "n": "Яичница с ветчиной"}, {"id": "cottagebreak", "n": "Творог с зеленью"}, {"id": "wrap", "n": "Ролл / врап с курицей"}, {"id": "benedict", "n": "Яйцо бенедикт"}, {"id": "waffles", "n": "Вафли"}, {"id": "buckwheatb", "n": "Гречневая каша с маслом"}]}, {"id": "sides", "title": "Крупы и гарниры", "hint": "Чем гарнировать? Картошку хочется чаще — как приготовить?", "items": [{"id": "buckwheat", "n": "Гречка"}, {"id": "rice", "n": "Белый рис"}, {"id": "brownrice", "n": "Бурый рис"}, {"id": "pasta", "n": "Макароны"}, {"id": "wholepasta", "n": "Цельнозерновая паста"}, {"id": "bulgur", "n": "Булгур"}, {"id": "quinoa", "n": "Киноа"}, {"id": "couscous", "n": "Кускус"}, {"id": "millet", "n": "Пшено"}, {"id": "barley", "n": "Перловка"}, {"id": "lentils", "n": "Чечевица"}, {"id": "chickpeas", "n": "Нут"}, {"id": "beans", "n": "Фасоль"}, {"id": "bakedpotato", "n": "Запечённая картошка целиком"}, {"id": "wedges", "n": "Картофельные дольки в духовке"}, {"id": "mashed", "n": "Картофельное пюре"}, {"id": "boiledpotato", "n": "Отварная картошка с зеленью"}, {"id": "sweetpotato", "n": "Батат запечённый"}, {"id": "polenta", "n": "Полента"}, {"id": "draniki", "n": "Драники (запечённые)"}, {"id": "hummus", "n": "Хумус"}]}, {"id": "soups", "title": "Супы", "hint": "Супы — что любишь?", "items": [{"id": "borscht", "n": "Борщ"}, {"id": "chickensoup", "n": "Куриный суп"}, {"id": "mushroomsoup", "n": "Грибной крем-суп"}, {"id": "pumpkinsoup", "n": "Крем-суп из тыквы"}, {"id": "lentilsoup", "n": "Чечевичный суп"}, {"id": "tomatosoup", "n": "Томатный суп"}, {"id": "peasoup", "n": "Гороховый суп"}, {"id": "ukha", "n": "Уха"}, {"id": "minestrone", "n": "Минестроне"}, {"id": "gazpacho", "n": "Гаспачо"}, {"id": "solyanka", "n": "Солянка"}, {"id": "shchi", "n": "Щи"}, {"id": "broccolisoup", "n": "Крем-суп из брокколи"}, {"id": "misosoup", "n": "Мисо-суп"}]}, {"id": "salad", "title": "Салаты", "hint": "Какие салаты тебе нравятся?", "items": [{"id": "greek", "n": "Греческий"}, {"id": "caprese", "n": "Капрезе"}, {"id": "caesar", "n": "Цезарь"}, {"id": "coleslaw", "n": "Салат из капусты"}, {"id": "tabbouleh", "n": "Табуле"}, {"id": "olivier", "n": "Оливье"}, {"id": "vinegret", "n": "Винегрет"}, {"id": "nicoise", "n": "Нисуаз"}, {"id": "cucumbersalad", "n": "Огурцы с зеленью и йогуртом"}, {"id": "tunasalad", "n": "Салат с тунцом"}, {"id": "fruitsalad", "n": "Фруктовый салат"}, {"id": "shuba", "n": "Сельдь под шубой"}, {"id": "carrotsalad", "n": "Морковный салат"}, {"id": "poke", "n": "Поке"}]}, {"id": "veggie", "title": "Овощные блюда", "hint": "Овощные блюда без возни — что попробовал бы?", "items": [{"id": "ratatouille", "n": "Рататуй"}, {"id": "stuffedpeppers", "n": "Фаршированные перцы"}, {"id": "zucchinifritters", "n": "Оладьи из кабачка"}, {"id": "bakedeggplant", "n": "Баклажаны с помидорами"}, {"id": "mushroomsbaked", "n": "Запечённые шампиньоны"}, {"id": "stirfry", "n": "Овощи стир-фрай"}, {"id": "cauliflowerbaked", "n": "Цветная капуста запечённая"}, {"id": "pumpkinbaked", "n": "Тыква запечённая"}, {"id": "frittata", "n": "Фриттата"}, {"id": "babaganoush", "n": "Баба гануш"}, {"id": "falafel", "n": "Фалафель"}, {"id": "ajapsandali", "n": "Рагу из овощей"}]}, {"id": "dressing", "title": "Заправки и соусы", "hint": "Чем заправлять салаты, чтобы вкусно и без майонеза?", "items": [{"id": "oliveoil", "n": "Оливковое масло"}, {"id": "lemonjuice", "n": "Лимонный сок"}, {"id": "balsamic", "n": "Бальзамический уксус"}, {"id": "tzatziki", "n": "Йогуртовая заправка (дзадзики)"}, {"id": "mustard", "n": "Горчица"}, {"id": "tahini", "n": "Тахини"}, {"id": "pesto", "n": "Песто"}, {"id": "soysauce", "n": "Соевый соус"}, {"id": "sourcream", "n": "Сметана"}, {"id": "vinaigrette", "n": "Винегретная заправка"}, {"id": "guacamole", "n": "Гуакамоле"}, {"id": "salsa", "n": "Сальса"}, {"id": "tomatosauce", "n": "Томатный соус"}, {"id": "mayo", "n": "Майонез"}, {"id": "ranch", "n": "Ранч / цезарь"}, {"id": "sesameoil", "n": "Кунжутное масло"}, {"id": "avocado", "n": "Авокадо"}, {"id": "applevinegar", "n": "Яблочный уксус"}]}, {"id": "sweets", "title": "Сладкое и перекусы", "hint": "Чем перекусить полезно и вкусно?", "items": [{"id": "darkchoc", "n": "Тёмный шоколад"}, {"id": "cheesecake", "n": "Чизкейк"}, {"id": "marshmallow", "n": "Зефир / пастила"}, {"id": "popcorn", "n": "Попкорн"}, {"id": "hummusveg", "n": "Овощные палочки с хумусом"}, {"id": "driedmix", "n": "Орехи с сухофруктами"}]}, {"id": "drinks", "title": "Напитки", "hint": "Что пьёшь? Что мог бы добавить?", "items": [{"id": "water", "n": "Вода"}, {"id": "greentea", "n": "Зелёный чай"}, {"id": "blacktea", "n": "Чёрный чай"}, {"id": "herbaltea", "n": "Травяной чай"}, {"id": "coffee", "n": "Кофе"}, {"id": "juice", "n": "Свежевыжатый сок"}, {"id": "rosehip", "n": "Отвар шиповника"}, {"id": "kompot", "n": "Компот / морс"}, {"id": "kvass", "n": "Квас"}, {"id": "kombucha", "n": "Комбуча"}, {"id": "ginger", "n": "Имбирный чай"}]}];
+const ICON = {
+ 1:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.500-4.600-9.600-9.200C.900 8.500 2.700 5 6.100 5c2.100 0 3.400 1.200 3.900 2.200.5-1 1.800-2.200 3.900-2.200 3.400 0 5.200 3.500 3.700 6.800C19.500 16.400 12 21 12 21z"/></svg>',
+ 2:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>',
+ 3:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>'};
+const LBL = {1:'Люблю',2:'Могу',3:'Нет'};
+const ITEMS = []; DATA.forEach(s => s.items.forEach(i => ITEMS.push(i)));
+const params = new URLSearchParams(location.search);
+let uid = params.get('u');
+if (!uid) { uid = Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,6); params.set('u',uid); try{history.replaceState(null,'','?'+params.toString())}catch(e){} }
+const VIEW_CODE = params.get('r');
+const KEY = 'foodsurvey:'+uid;
+let S = {name:'', a:{}, notes:{}};
+try { const l = JSON.parse(localStorage.getItem(KEY)||'null'); if (l) S = Object.assign(S,l); } catch(e){}
+
+// ---------- кодирование ответов в ссылку ----------
+function encode(){ let s=''; ITEMS.forEach(i=>{ s += (S.a[i.id]||0); });
+  // 0/1/2/3 -> сжатие повторов: 0*12 как "0x12"
+  s = s.replace(/(.)\1{3,}/g,(m,c)=>c+'~'+m.length+'~');
+  return btoa(unescape(encodeURIComponent(JSON.stringify({n:S.name,a:s,t:S.notes})))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+function decode(code){ try{ const o = JSON.parse(decodeURIComponent(escape(atob(code.replace(/-/g,'+').replace(/_/g,'/')))));
+  const s = o.a.replace(/(.)~(\d+)~/g,(m,c,n)=>c.repeat(+n)); const a={}; ITEMS.forEach((it,k)=>{ if (+s[k]) a[it.id]=+s[k]; });
+  return {name:o.n||'',a,notes:o.t||{}}; }catch(e){ return null; } }
+
+// ---------- отрисовка ----------
+const main = document.getElementById('main'), chips = document.getElementById('chips');
+function build(){
+  main.innerHTML=''; chips.innerHTML='';
+  DATA.forEach(sec=>{
+    const c=document.createElement('button'); c.className='chip'; c.dataset.sec=sec.id; c.innerHTML=sec.title+'<small></small>';
+    c.onclick=()=>document.getElementById('sec-'+sec.id).scrollIntoView(); chips.appendChild(c);
+    const el=document.createElement('section'); el.className='sec'; el.id='sec-'+sec.id;
+    el.innerHTML=`<div class="secbar"><h2>${sec.title}</h2><button class="linkbtn" data-rest="${sec.id}">Всё неотмеченное — не ем</button></div><p class="sub">${sec.hint}</p><div class="grid"></div>
+    <div class="notes"><label for="n-${sec.id}">Что ещё ты любишь из этого раздела? Чего не хватает? (необязательно)</label><textarea id="n-${sec.id}" data-note="${sec.id}" placeholder="Напиши своими словами…"></textarea></div>`;
+    const g=el.querySelector('.grid');
+    sec.items.forEach(it=>{
+      const d=document.createElement('div'); d.className='card'; d.id='c-'+it.id;
+      d.innerHTML=`<div class="ph"><img loading="lazy" src="img/${it.id}.jpg" alt="${it.n}"></div><div class="nm">${it.n}</div>
+      <div class="opts">${[1,2,3].map(v=>`<button data-v="${v}" aria-label="${LBL[v]}">${ICON[v]}${LBL[v]}</button>`).join('')}</div>`;
+      d.querySelectorAll('.opts button').forEach(b=>b.onclick=()=>setAns(it.id,+b.dataset.v));
+      g.appendChild(d);
+    });
+    main.appendChild(el);
+  });
+  main.querySelectorAll('[data-rest]').forEach(b=>b.onclick=()=>{ const sec=DATA.find(s=>s.id===b.dataset.rest); sec.items.forEach(i=>{ if(!S.a[i.id]) S.a[i.id]=3; }); refresh(); save(); });
+  main.querySelectorAll('[data-note]').forEach(t=>{ t.value=S.notes[t.dataset.note]||''; t.oninput=()=>{ S.notes[t.dataset.note]=t.value; save(); }; });
+}
+function setAns(id,v){ if (S.a[id]===v) delete S.a[id]; else S.a[id]=v; refresh(); save(); }
+function refresh(){
+  let done=0;
+  ITEMS.forEach(i=>{ const c=document.getElementById('c-'+i.id); const v=S.a[i.id]; if(v){done++; c.dataset.s=v;} else c.removeAttribute('data-s'); });
+  DATA.forEach(sec=>{ const n=sec.items.filter(i=>S.a[i.id]).length; const c=chips.querySelector(`[data-sec="${sec.id}"]`); c.querySelector('small').textContent=n+'/'+sec.items.length; c.classList.toggle('done',n===sec.items.length); });
+  document.getElementById('ptxt').textContent='Отмечено '+done+' из '+ITEMS.length;
+  document.getElementById('pbar').style.width=(done/ITEMS.length*100)+'%';
+}
+
+// ---------- сохранение ----------
+let cloud=null, cloudOK=false, timer=null;
+function syncMsg(t,ok){ const e=document.getElementById('sync'); e.textContent=t; e.className='sync'+(ok?' ok':''); }
+function save(){
+  S.updatedAt=Date.now();
+  try{ localStorage.setItem(KEY,JSON.stringify(S)); }catch(e){}
+  if(VIEW_CODE) return;
+  syncMsg('Сохраняю…');
+  clearTimeout(timer); timer=setTimeout(cloudWrite,800);
+}
+async function cloudWrite(){
+  if(!cloudOK){ syncMsg('Сохранено на этом устройстве'); return; }
+  try{ await cloud.fns.setDoc(cloud.ref,{kind:'food-survey',name:S.name||'',a:S.a,notes:S.notes,updatedAt:cloud.fns.serverTimestamp()},{merge:false}); syncMsg('Сохранено',true); }
+  catch(e){ syncMsg('Сохранено на этом устройстве'); }
+}
+async function initCloud(){
+  try{
+    const app=await import('https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js');
+    const fs=await import('https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js');
+    const a=app.initializeApp({apiKey:"AIzaSyDoBRB7z4Kywfv3uZi9h0CGGQObvKbtHbo",authDomain:"vocabulary-app-50c24.firebaseapp.com",projectId:"vocabulary-app-50c24",storageBucket:"vocabulary-app-50c24.firebasestorage.app",messagingSenderId:"802755830502",appId:"1:802755830502:web:d60bf64a2999861c2a5127"});
+    cloud={fns:fs,ref:fs.doc(fs.getFirestore(a),'students','food_'+uid)};
+    const snap=await fs.getDoc(cloud.ref);
+    if(snap.exists()){ const d=snap.data(); const cloudNewer=(d.updatedAt&&d.updatedAt.toMillis?d.updatedAt.toMillis():0)>(S.updatedAt||0);
+      if(cloudNewer||!Object.keys(S.a).length){ S.a=d.a||{}; S.notes=d.notes||{}; S.name=d.name||S.name; document.getElementById('nm').value=S.name; build(); refresh(); } }
+    cloudOK=true; syncMsg('Сохранено',true); if(Object.keys(S.a).length) cloudWrite();
+  }catch(e){ syncMsg('Только на этом устройстве'); }
+}
+
+// ---------- итог ----------
+function resultsData(){
+  return DATA.map(sec=>({sec,g:{1:sec.items.filter(i=>S.a[i.id]===1),2:sec.items.filter(i=>S.a[i.id]===2),3:sec.items.filter(i=>S.a[i.id]===3)},note:(S.notes[sec.id]||'').trim()})).filter(r=>r.g[1].length||r.g[2].length||r.g[3].length||r.note);
+}
+function showResult(){
+  const R=resultsData(); const body=document.getElementById('rbody'); body.innerHTML='';
+  document.getElementById('rtitle').textContent='Ответы'+(S.name?': '+S.name:'');
+  document.getElementById('rsub').textContent='Отмечено '+ITEMS.filter(i=>S.a[i.id]).length+' из '+ITEMS.length;
+  if(!R.length) body.innerHTML='<p class="sub">Пока ничего не отмечено.</p>';
+  R.forEach(r=>{ const d=document.createElement('div'); d.className='rgroup'; d.innerHTML='<h3>'+r.sec.title+'</h3>';
+    [1,2,3].forEach(v=>{ if(!r.g[v].length) return; const x=document.createElement('div'); x.className='rsec'; x.innerHTML='<h4>'+({1:'Люблю',2:'Могу есть',3:'Не ем / не хочу'})[v]+'</h4><div class="tags">'+r.g[v].map(i=>`<span class="tag s${v}"><img src="img/${i.id}.jpg" alt="">${i.n}</span>`).join('')+'</div>'; d.appendChild(x); });
+    if(r.note){ const n=document.createElement('div'); n.className='note'; n.textContent=r.note; d.appendChild(n); }
+    body.appendChild(d); });
+  document.getElementById('result').classList.add('on'); document.getElementById('result').scrollTop=0;
+}
+function asText(){
+  let t='Анкета вкусов'+(S.name?' — '+S.name:'')+'\n';
+  resultsData().forEach(r=>{ t+='\n'+r.sec.title.toUpperCase()+'\n';
+    if(r.g[1].length) t+='Люблю: '+r.g[1].map(i=>i.n).join(', ')+'\n';
+    if(r.g[2].length) t+='Могу есть: '+r.g[2].map(i=>i.n).join(', ')+'\n';
+    if(r.g[3].length) t+='Не ем: '+r.g[3].map(i=>i.n).join(', ')+'\n';
+    if(r.note) t+='Заметка: '+r.note+'\n'; });
+  return t;
+}
+function toast(m){ const e=document.getElementById('toast'); e.textContent=m; e.classList.add('on'); setTimeout(()=>e.classList.remove('on'),2200); }
+async function copy(txt,msg){ try{ await navigator.clipboard.writeText(txt); toast(msg); }catch(e){ const t=document.createElement('textarea'); t.value=txt; document.body.appendChild(t); t.select(); try{document.execCommand('copy'); toast(msg);}catch(_){toast('Не получилось скопировать');} t.remove(); } }
+document.getElementById('showres').onclick=showResult;
+document.getElementById('closeres').onclick=()=>document.getElementById('result').classList.remove('on');
+document.getElementById('copytext').onclick=()=>copy(asText(),'Текст скопирован — вставь в сообщение');
+document.getElementById('copylink').onclick=()=>copy(location.origin+location.pathname+'?r='+encode(),'Ссылка скопирована — по ней видны все ответы');
+document.getElementById('nm').oninput=e=>{ S.name=e.target.value; save(); };
+
+// ---------- запуск ----------
+build();
+if(VIEW_CODE){
+  const v=decode(VIEW_CODE); if(v){ S=v; document.getElementById('viewbanner').style.display='block'; document.getElementById('viewbanner').textContent='Просмотр чужих ответов'+(S.name?': '+S.name:'');
+    document.querySelector('.bar').style.display='none'; document.querySelectorAll('.opts button,[data-rest],textarea,#nm').forEach(e=>e.disabled=true);
+    document.getElementById('nm').value=S.name; refresh(); showResult(); document.getElementById('closeres').textContent='Смотреть по карточкам'; document.getElementById('copylink').style.display='none'; }
+} else { document.getElementById('nm').value=S.name||''; refresh(); initCloud(); }
+</script>
+</body>
+</html>
