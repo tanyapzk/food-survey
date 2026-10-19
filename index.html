@@ -92,8 +92,7 @@ section.sec h2{font-size:26px;margin:0;font-weight:800;letter-spacing:-.01em}
 <div class="wrap">
 <header class="hero">
 <h1>Анкета вкусов</h1>
-<p>Нажимай на картинки и отмечай, что ты ешь. Никакого «правильного» ответа нет — нам важно понять, что тебе реально нравится, и из этого составить меню. Ответы сохраняются сами.</p>
-<div class="who"><label for="nm">Твоё имя</label><input id="nm" placeholder="Например, Муж" autocomplete="off"></div>
+<p>Так, ну, тыкай, что тебе нравится или что можешь есть.</p>
 <div class="legend">
 <span class="pill p1"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.5 2.7 5 6.1 5c2.1 0 3.4 1.2 3.9 2.2.5-1 1.800-2.200 3.900-2.200 3.400 0 5.200 3.500 3.700 6.800C19.500 16.400 12 21 12 21z" transform="translate(.0 0)"/></svg>Люблю</span>
 <span class="pill p2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.600" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>Могу есть</span>
@@ -131,7 +130,7 @@ let uid = params.get('u');
 if (!uid) { uid = Math.random().toString(36).slice(2,10)+Math.random().toString(36).slice(2,6); params.set('u',uid); try{history.replaceState(null,'','?'+params.toString())}catch(e){} }
 const VIEW_CODE = params.get('r');
 const KEY = 'foodsurvey:'+uid;
-let S = {name:'', a:{}, notes:{}};
+let S = {name:'Рома', a:{}, notes:{}};
 try { const l = JSON.parse(localStorage.getItem(KEY)||'null'); if (l) S = Object.assign(S,l); } catch(e){}
 
 // ---------- кодирование ответов в ссылку ----------
@@ -198,7 +197,7 @@ async function initCloud(){
     cloud={fns:fs,ref:fs.doc(fs.getFirestore(a),'students','food_'+uid)};
     const snap=await fs.getDoc(cloud.ref);
     if(snap.exists()){ const d=snap.data(); const cloudNewer=(d.updatedAt&&d.updatedAt.toMillis?d.updatedAt.toMillis():0)>(S.updatedAt||0);
-      if(cloudNewer||!Object.keys(S.a).length){ S.a=d.a||{}; S.notes=d.notes||{}; S.name=d.name||S.name; document.getElementById('nm').value=S.name; build(); refresh(); } }
+      if(cloudNewer||!Object.keys(S.a).length){ S.a=d.a||{}; S.notes=d.notes||{}; S.name=d.name||S.name; build(); refresh(); } }
     cloudOK=true; syncMsg('Сохранено',true); if(Object.keys(S.a).length) cloudWrite();
   }catch(e){ syncMsg('Только на этом устройстве'); }
 }
@@ -233,15 +232,15 @@ document.getElementById('showres').onclick=showResult;
 document.getElementById('closeres').onclick=()=>document.getElementById('result').classList.remove('on');
 document.getElementById('copytext').onclick=()=>copy(asText(),'Текст скопирован — вставь в сообщение');
 document.getElementById('copylink').onclick=()=>copy(location.origin+location.pathname+'?r='+encode(),'Ссылка скопирована — по ней видны все ответы');
-document.getElementById('nm').oninput=e=>{ S.name=e.target.value; save(); };
+
 
 // ---------- запуск ----------
 build();
 if(VIEW_CODE){
   const v=decode(VIEW_CODE); if(v){ S=v; document.getElementById('viewbanner').style.display='block'; document.getElementById('viewbanner').textContent='Просмотр чужих ответов'+(S.name?': '+S.name:'');
-    document.querySelector('.bar').style.display='none'; document.querySelectorAll('.opts button,[data-rest],textarea,#nm').forEach(e=>e.disabled=true);
-    document.getElementById('nm').value=S.name; refresh(); showResult(); document.getElementById('closeres').textContent='Смотреть по карточкам'; document.getElementById('copylink').style.display='none'; }
-} else { document.getElementById('nm').value=S.name||''; refresh(); initCloud(); }
+    document.querySelector('.bar').style.display='none'; document.querySelectorAll('.opts button,[data-rest],textarea').forEach(e=>e.disabled=true);
+    refresh(); showResult(); document.getElementById('closeres').textContent='Смотреть по карточкам'; document.getElementById('copylink').style.display='none'; }
+} else { refresh(); initCloud(); }
 </script>
 </body>
 </html>
